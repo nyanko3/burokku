@@ -10,7 +10,7 @@ from cache import cache
 import ast
 
 # 3 => (3.0, 1.5)
-max_api_wait_time = (3.0, 1.5)
+max_api_wait_time = 3
 # 10 => 10
 max_time = 10
 
@@ -21,7 +21,7 @@ header = {
 
 class InvidiousAPI:
     def __init__(self):
-        self.videos = ast.literal_eval(requests.get('https://raw.githubusercontent.com/nyanko3/invi/refs/heads/main/instances.txt', headers=header, timeout=(1.0, 0.5)).text)
+        self.videos = ast.literal_eval(requests.get('https://raw.githubusercontent.com/nyanko3/invi/refs/heads/main/test.txt', headers=header, timeout=(1.0, 0.5)).text)
         
         self.channels = []
         self.comments = []
@@ -198,7 +198,6 @@ from typing import Union
 
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
-app.mount("/js", StaticFiles(directory="./js"), name="static")
 app.mount("/css", StaticFiles(directory="./css"), name="static")
 app.mount("/nyanko_a", StaticFiles(directory="./blog", html=True), name="static")
 app.add_middleware(GZipMiddleware, minimum_size=1000)
@@ -214,7 +213,7 @@ def home(response: Response, request: Request, yuki: Union[str] = Cookie(None)):
         response.set_cookie("yuki", "True", max_age=60 * 60 * 24 * 7)
         return template("home.html", {"request": request})
     print(check_cokie(yuki))
-    return redirect("/ nyanko_a")
+    return redirect("/nyanko_a")
 
 
 @app.get('/watch', response_class=HTMLResponse)
